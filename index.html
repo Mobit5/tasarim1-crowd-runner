@@ -60,6 +60,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
       <li><a class="hover:text-white" href="#ana-sayfa">Ana Sayfa</a></li>
       <li><a class="hover:text-white" href="#oyun">Oyun Hakkında</a></li>
       <li><a class="hover:text-white" href="#yapay-zeka">Yapay Zeka</a></li>
+      <li><a class="hover:text-white" href="#yol-haritasi">Yol Haritası</a></li>
       <li><a class="hover:text-white" href="#ekip">Proje Ekibi</a></li>
     </ul>
   </nav>
@@ -98,14 +99,76 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 <section id="yapay-zeka" class="relative overflow-hidden py-16 md:py-24" style="background:linear-gradient(180deg,#04050f,#0b0620)">
   <div class="mx-auto max-w-6xl px-5">
     <h2 class="rv text-3xl font-bold sm:text-4xl">Adaptif Zorluk Motoru</h2>
-    <p class="rv mt-3 max-w-3xl" style="color:var(--mute)">Oyunun kalbinde, oyuncu performansını gerçek zamanlı değerlendiren Kural Tabanlı Yapay Zeka (Rule-Based AI) bulunur. Sistem, oyuncuyu sıkmadan ve yormadan sürekli “akış” halinde tutmayı hedefler.</p>
+    <p class="rv mt-3 max-w-3xl" style="color:var(--mute)">Oyunun kalbinde, klasik “if / else” eşiklerine dayanmayan hibrit bir adaptif zorluk motoru bulunur. Motor; oyuncu modelleme, geri beslemeli kontrol ve çok kollu haydut (multi-armed bandit) öğrenmesini birleştirerek oyuncuyu sıkmadan ve yormadan sürekli “akış” halinde tutmayı hedefler.</p>
     <div class="mt-10 grid gap-5 md:grid-cols-3">
       <div class="card rv" style="border-color:rgba(34,211,238,.4)"><h3 class="text-xl font-bold" style="color:var(--cyan)">Veri Toplama</h3><p class="mt-2 text-sm" style="color:var(--mute)">Her kapı geçişinde tepki süresi, doğru/yanlış seçim oranı ve mevcut kalabalık boyutu kaydedilir.</p></div>
-      <div class="card rv" style="border-color:rgba(139,92,246,.5)"><h3 class="text-xl font-bold" style="color:#c4b5fd">Kural Tabanlı Analiz</h3><p class="mt-2 text-sm" style="color:var(--mute)">Önceden tanımlı eşik kuralları, oyuncunun seviyesini “kolay”, “dengeli” veya “zorlayıcı” olarak sınıflandırır.</p></div>
-      <div class="card rv" style="border-color:rgba(251,146,60,.5)"><h3 class="text-xl font-bold" style="color:var(--orange)">Dinamik Uyarlama</h3><p class="mt-2 text-sm" style="color:var(--mute)">Karar sonucuna göre işlem türleri, sayı aralıkları ve oyun hızı bir sonraki bölüm için anında güncellenir.</p></div>
+      <div class="card rv" style="border-color:rgba(139,92,246,.5)"><h3 class="text-xl font-bold" style="color:#c4b5fd">Oyuncu Modelleme</h3><p class="mt-2 text-sm" style="color:var(--mute)">Oyuncunun becerisi sabit bir seviye olarak değil, her kapı geçişinde güncellenen bir olasılık dağılımı olarak tahmin edilir.</p></div>
+      <div class="card rv" style="border-color:rgba(251,146,60,.5)"><h3 class="text-xl font-bold" style="color:var(--orange)">Dinamik Uyarlama</h3><p class="mt-2 text-sm" style="color:var(--mute)">Kontrolcü ve öğrenen algoritma; işlem türünü, sayı aralığını ve oyun hızını bir sonraki kapı için sürekli günceller.</p></div>
     </div>
     
   </div>
+</section>
+
+<section class="pb-16 md:pb-24" style="background:#0b0620">
+  <div class="mx-auto max-w-6xl px-5">
+    <h2 class="rv text-3xl font-bold sm:text-4xl">Neden Klasik “if / else” Mantığından Farklı?</h2>
+    <div class="mt-8 grid gap-5 md:grid-cols-2">
+      <div class="card rv"><h3 class="text-xl font-bold" style="color:var(--mute)">Klasik yaklaşım</h3><p class="mt-2 text-sm" style="color:var(--mute)">Sabit eşikler ve ayrık zorluk seviyeleri kullanılır. Sistem oyuncudan öğrenmez, herkese aynı kuralları uygular ve ayarları geliştiricinin elle yapması gerekir.</p></div>
+      <div class="card rv" style="border-color:var(--cyan)"><h3 class="text-xl font-bold" style="color:var(--cyan)">Bu projedeki yaklaşım</h3><p class="mt-2 text-sm" style="color:var(--mute)">Beceri sürekli kestirilir, zorluk geri beslemeyle yumuşakça ayarlanır ve algoritma hangi kapı düzeninin işe yaradığını deneyerek öğrenir. Her oyuncu için farklı bir zorluk eğrisi oluşur.</p></div>
+    </div>
+    <div class="mt-5 grid gap-5 sm:grid-cols-2">
+      <div class="card rv"><h3 class="text-lg font-bold">Bayesçi Beceri Kestirimi</h3><p class="mt-2 text-sm" style="color:var(--mute)">Beceri, tek bir sayı yerine ortalama ve belirsizlikle tanımlanan bir dağılım olarak tutulur. Elo/Glicko benzeri bir güncelleme, az veriyle temkinli, çok veriyle kesin kararlar verir.</p></div>
+      <div class="card rv"><h3 class="text-lg font-bold">PID Akış Kontrolcüsü</h3><p class="mt-2 text-sm" style="color:var(--mute)">Akış teorisine göre hedef başarı oranı yaklaşık %70’tir. Gerçek oran ile hedef arasındaki fark, PID kontrolcüsüyle zorluk parametresine dönüştürülür; ayar ani sıçramalar yerine kademeli yapılır.</p></div>
+      <div class="card rv"><h3 class="text-lg font-bold">Thompson Örneklemeli Haydut</h3><p class="mt-2 text-sm" style="color:var(--mute)">İşlem türü ve sayı aralığı kombinasyonları birer “kol” olarak ele alınır. Sistem, hangisinin oyuncuyu akış bandında tuttuğunu keşif–sömürü dengesiyle öğrenir.</p></div>
+      <div class="card rv"><h3 class="text-lg font-bold">Kısıtlı Prosedürel Kapı Üretimi</h3><p class="mt-2 text-sm" style="color:var(--mute)">Kapılar; işlem karmaşıklığı, sayı büyüklüğü ve seçenekler arası farkı içeren bir zorluk skoruna göre üretilir. Her kapı çiftinde tam olarak bir doğru seçenek garanti edilir.</p></div>
+    </div>
+    <div class="card rv mt-5" style="border-color:var(--orange)"><h3 class="text-lg font-bold" style="color:var(--orange)">Bilimsel Doğrulama</h3><p class="mt-2 text-sm" style="color:var(--mute)">Motor, farklı beceri profillerine sahip simülasyon botlarıyla test edilir ve sabit zorluklu sürümle A/B karşılaştırmasına tabi tutulur. Başarı oranı, akış bandında kalma süresi, oturum uzunluğu ve oyunu bırakma oranı ölçülür; gerçek oyunculardan Flow State Scale anketi toplanır.</p></div>
+  </div>
+</section>
+
+<section class="pb-16 md:pb-24" style="background:#0b0620">
+  <div class="mx-auto grid max-w-6xl items-center gap-10 px-5 md:grid-cols-2">
+    <div>
+      <h2 class="rv text-3xl font-bold sm:text-4xl">Sistem Mimarisi: Veri Akışı</h2>
+      <p class="rv mt-3" style="color:var(--mute)">Oyuncunun verdiği her karar kapalı bir döngü içinde işlenir ve bir sonraki kapıların üretimini belirler.</p>
+      <ol class="rv mt-6 list-decimal space-y-3 pl-5 text-sm" style="color:var(--mute)">
+        <li><b class="text-white">Telemetri:</b> Her kapı geçişinde tepki süresi, doğruluk ve kalabalık boyutu kaydedilir.</li>
+        <li><b class="text-white">Oyuncu modeli:</b> Bu veriler beceri tahminini ve belirsizliğini günceller.</li>
+        <li><b class="text-white">Akış kontrolücüsü:</b> Gerçek başarı oranı ile hedef arasındaki fark zorluk parametresine dönüşür.</li>
+        <li><b class="text-white">Haydut algoritması:</b> Bu zorlukta oyuncuya en uygun işlem türü ve sayı aralığını seçer.</li>
+        <li><b class="text-white">Kapı üreticisi:</b> Seçilen ayarlarla yeni kapılar üretir ve oyuncuya sunar; döngü yeniden başlar.</li>
+      </ol>
+    </div>
+    <div class="rv mx-auto w-full max-w-sm">
+      <svg viewBox="0 0 460 720" role="img" aria-label="Oyuncudan kapı üreticisine veri akışı şeması" style="width:100%;height:auto;font-family:'Nunito',system-ui,sans-serif">
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" style="fill:var(--mute)"/></marker></defs>
+        <g style="stroke:var(--mute);stroke-width:2;fill:none" marker-end="url(#ah)">
+          <path d="M190 90V138" marker-end="url(#ah)"/><path d="M190 210V258" marker-end="url(#ah)"/><path d="M190 330V378" marker-end="url(#ah)"/><path d="M190 450V498" marker-end="url(#ah)"/><path d="M190 570V618" marker-end="url(#ah)"/>
+          <path d="M340 655H400V55H344" stroke-dasharray="6 5" marker-end="url(#ah)"/>
+        </g>
+        <g style="font-size:11.5px;fill:var(--mute)"><text x="202" y="119">kapı seçimi, süre</text><text x="202" y="239">beceri tahmini</text><text x="202" y="359">zorluk seviyesi</text><text x="202" y="479">kol (işlem, aralık)</text><text x="202" y="599">yeni kapılar</text><text transform="translate(428 360) rotate(-90)" text-anchor="middle">geri besleme döngüsü</text></g>
+        <g style="fill:var(--bg2);stroke-width:2">
+          <rect x="40" y="20" width="300" height="70" rx="14" style="stroke:var(--cyan)"/><rect x="40" y="140" width="300" height="70" rx="14" style="stroke:var(--violet)"/><rect x="40" y="260" width="300" height="70" rx="14" style="stroke:var(--violet)"/><rect x="40" y="380" width="300" height="70" rx="14" style="stroke:var(--violet)"/><rect x="40" y="500" width="300" height="70" rx="14" style="stroke:var(--violet)"/><rect x="40" y="620" width="300" height="70" rx="14" style="stroke:var(--orange)"/>
+        </g>
+        <g style="font-size:15px;font-weight:800;fill:var(--ink);font-family:'Chakra Petch',sans-serif" text-anchor="middle"><text x="190" y="48">Oyuncu</text><text x="190" y="168">Telemetri Katmanı</text><text x="190" y="288">Oyuncu Modeli (Bayes)</text><text x="190" y="408">Akış Kontrolücüsü (PID)</text><text x="190" y="528">Haydut (Thompson)</text><text x="190" y="648">Kapı Üreticisi</text></g>
+        <g style="font-size:12px;fill:var(--mute)" text-anchor="middle"><text x="190" y="70">Koşar, matematik kapısını seçer</text><text x="190" y="190">Tepki · doğruluk · kalabalık boyutu</text><text x="190" y="310">Beceri dağılımı: ortalama ± belirsizlik</text><text x="190" y="430">Hedef başarı oranı ≈ %70</text><text x="190" y="550">En uygun işlem türünü seçer</text><text x="190" y="670">Tek doğru cevap garantili üretim</text></g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section id="yol-haritasi" class="mx-auto max-w-4xl px-5 py-16 md:py-24">
+  <h2 class="rv text-3xl font-bold sm:text-4xl">Geliştirme Yol Haritası</h2>
+  <p class="rv mt-3" style="color:var(--mute)">Proje, 14 haftalık bir yazılım geliştirme sürecine bölünmüştür.</p>
+  <ol class="mt-10">
+    <li class="rv border-l-2 pb-7 pl-5" style="border-color:var(--violet)"><p class="font-bold" style="color:var(--cyan)">Hafta 1–2</p><h3 class="text-xl font-bold">Analiz ve Tasarım</h3><p class="mt-1 text-sm" style="color:var(--mute)">Dinamik zorluk ayarı, akış teorisi ve oyuncu modelleme üzerine literatür taraması; gereksinim analizi; oyun tasarım dokümanı.</p></li>
+    <li class="rv border-l-2 pb-7 pl-5" style="border-color:var(--violet)"><p class="font-bold" style="color:var(--cyan)">Hafta 3–4</p><h3 class="text-xl font-bold">Çekirdek Oynanış</h3><p class="mt-1 text-sm" style="color:var(--mute)">Karakter kontrolü, kalabalık simülasyonu, pist yapısı ve temel kapı sistemi.</p></li>
+    <li class="rv border-l-2 pb-7 pl-5" style="border-color:var(--violet)"><p class="font-bold" style="color:var(--cyan)">Hafta 5–6</p><h3 class="text-xl font-bold">Matematik Kapıları ve Telemetri</h3><p class="mt-1 text-sm" style="color:var(--mute)">Kısıtlı kapı üreticisi; tepki süresi, doğruluk ve kalabalık verisini kaydeden veri toplama altyapısı.</p></li>
+    <li class="rv border-l-2 pb-7 pl-5" style="border-color:var(--violet)"><p class="font-bold" style="color:var(--cyan)">Hafta 7–9</p><h3 class="text-xl font-bold">Yapay Zeka Motoru</h3><p class="mt-1 text-sm" style="color:var(--mute)">Beceri kestirimi, PID akış kontrolcüsü ve haydut algoritmasının geliştirilip oyuna entegre edilmesi.</p></li>
+    <li class="rv border-l-2 pb-7 pl-5" style="border-color:var(--violet)"><p class="font-bold" style="color:var(--cyan)">Hafta 10</p><h3 class="text-xl font-bold">Simülasyon ve Parametre Ayarı</h3><p class="mt-1 text-sm" style="color:var(--mute)">Simülasyon botlarıyla parametre optimizasyonu ve sabit zorluklu sürümle karşılaştırma.</p></li>
+    <li class="rv border-l-2 pb-7 pl-5" style="border-color:var(--violet)"><p class="font-bold" style="color:var(--cyan)">Hafta 11–12</p><h3 class="text-xl font-bold">Kullanıcı Testleri</h3><p class="mt-1 text-sm" style="color:var(--mute)">Gerçek oyunculardan veri ve anket toplanması, sonuçların istatistiksel analizi.</p></li>
+    <li class="rv border-l-2 pl-5" style="border-color:var(--violet)"><p class="font-bold" style="color:var(--cyan)">Hafta 13–14</p><h3 class="text-xl font-bold">Cilalama ve Teslim</h3><p class="mt-1 text-sm" style="color:var(--mute)">Arayüz, ses, mobil performans optimizasyonu, final raporu ve sunum.</p></li>
+  </ol>
 </section>
 
 <section id="ekip" class="mx-auto max-w-4xl px-5 py-16 text-center md:py-24">
